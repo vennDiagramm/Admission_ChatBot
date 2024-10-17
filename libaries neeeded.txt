@@ -1,0 +1,10 @@
+pip install spacy streamlit PyPDF2 pandas scikit-learn
+
+⇈⇈ ENTER IN TERMINAL ⇈⇈
+
+Libaries:
+- spacy
+- streamlit
+- PyPDF2
+- pandas
+- scikit-learn
