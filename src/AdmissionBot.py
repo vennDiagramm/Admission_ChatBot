@@ -13,13 +13,14 @@ def process_text(text):
     return doc
 
 # this is for text extracting - PDF
-def extract_text_from_pdf(pdf_file):
-    reader = PyPDF2.PdfFileReader(pdf_file)
-    text = ''
-    for page_num in range(reader.numPages):
-        page = reader.getPage(page_num)
-        text += page.extract_text()
-    return text
+def extract_text_from_pdf(file_path):
+    with open(file_path, 'rb') as file:
+        reader = PyPDF2.PdfReader(file)
+        text = ''
+        for page_num in range(len(reader.pages)):
+            page = reader.pages[page_num]
+            text += page.extract_text()
+        return text
 
 
 # text extraction - csv
@@ -50,10 +51,10 @@ def chatbot_response(question, text_data):
 def main():
     st.set_page_config(page_title="Megatron",page_icon="🤖") # pulihan ug mcm 
     st.header("Megatron, Admission Buddy :books:")
-    st.write("This chatbot answers questions based on the content of a PDF or CSV file in the specified directory.")
+    st.write("Hi! I'm Megatron. Feel free to ask questions regarding Mapua Malayan Colleges Mindanao (MMCM)'s admissions.")
     
     # Specify the file path
-    file_path = 'path/to/your/file.pdf'  # You can change this to the path of your PDF or CSV file
+    file_path = 'C:\\Users\\marga\\Admission ChatBot\\Admission_ChatBot\\docs\\mcm_freqA.pdf'
     
     # Determine file type based on extension
     if file_path.endswith(".pdf"):
@@ -64,15 +65,12 @@ def main():
         st.error("Unsupported file format. Please use PDF or CSV.")
         return
     
-    # Show a snippet of the content (optional)
-    st.write("File Content Preview:", text_data[:500], "...")
-    
     # User question input
-    question = st.text_input("Ask a question based on the file content:")
+    question = st.text_input("Ask questions regarding admissions:")
     
     if question:
         response = chatbot_response(question, text_data)
-        st.write("Response:", response)
+        st.write("Megatron:", response)
 
 if __name__ == '__main__':
     main()
