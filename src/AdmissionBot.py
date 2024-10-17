@@ -46,20 +46,28 @@ def chatbot_response(question, text_data):
     return best_answer
 
 
-# Streamlit interface
+# interface
 def main():
-    st.title("File-Based Chatbot")
-    st.write("Upload a PDF or CSV file, and ask questions based on the file content.")
+    st.set_page_config(page_title="Megatron",page_icon="🤖") # pulihan ug mcm 
+    st.header("Megatron, Admission Buddy :books:")
+    st.write("This chatbot answers questions based on the content of a PDF or CSV file in the specified directory.")
     
-    uploaded_file = st.file_uploader("Upload a file", type=['pdf', 'csv'])
+    # Specify the file path
+    file_path = 'path/to/your/file.pdf'  # You can change this to the path of your PDF or CSV file
     
-    if uploaded_file is not None:
-        if uploaded_file.type == "application/pdf":
-            text_data = extract_text_from_pdf(uploaded_file)
-        elif uploaded_file.type == "text/csv":
-            text_data = extract_data_from_csv(uploaded_file)
-        st.write("File Content:", text_data[:500], "...")
+    # Determine file type based on extension
+    if file_path.endswith(".pdf"):
+        text_data = extract_text_from_pdf(file_path)
+    elif file_path.endswith(".csv"):
+        text_data = extract_data_from_csv(file_path)
+    else:
+        st.error("Unsupported file format. Please use PDF or CSV.")
+        return
     
+    # Show a snippet of the content (optional)
+    st.write("File Content Preview:", text_data[:500], "...")
+    
+    # User question input
     question = st.text_input("Ask a question based on the file content:")
     
     if question:
